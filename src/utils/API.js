@@ -1,8 +1,8 @@
 //Medium article explains it differently. Why doesn't the example call have the api.unsplash.com listed anywhere?
 
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
 import React, { Fragment, useEffect, useState } from "react";
-import "./style.css";
+import "../utils/style.css";
 import { createApi } from "unsplash-js";
 
 const api = createApi({
@@ -19,7 +19,7 @@ const PhotoComp = ({ photo }) => {
       <img className="img" src={urls.regular} alt="sky"/>
       <a
         className="credit"
-        target="_blank"
+        target="noopener"
         href={`https://unsplash.com/@${user.username}`}
       >
         {user.name}
@@ -35,6 +35,7 @@ const Body = () => {
     api.search
       .getPhotos({ query: "cabin", orientation: "landscape", page: 2 })
       .then((result) => {
+        console.log(result);
         setPhotosResponse(result);
       })
       .catch(() => {
@@ -52,9 +53,11 @@ const Body = () => {
       </div>
     );
   } else {
+    console.log(data.response.results[0].urls.full)
     return (
       <div className="feed">
         <ul className="columnUl">
+        {/* This is where the photos are input */}
           {data.response.results.map((photo) => (
             <li key={photo.id} className="li">
               <PhotoComp photo={photo} />
@@ -74,4 +77,5 @@ const Home = () => {
   );
 };
 
-ReactDOM.render(<Home />, document.getElementById("root"));
+
+export default Home;
